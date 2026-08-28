@@ -3,6 +3,7 @@ views\components\PlaceholderTextField.class
 views\incidents\Incidents.class
 views\Login.class
 views\config\Users.class
+views\Index$1.class
 views\Login$2.class
 views\components\PlaceholderPasswordField.class
 views\Index.class
