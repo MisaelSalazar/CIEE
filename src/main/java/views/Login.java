@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.*;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignE;
+import org.kordamp.ikonli.swing.FontIcon;
 import views.components.PlaceholderPasswordField;
 import views.components.PlaceholderTextField;
 
@@ -164,6 +166,13 @@ public class Login extends JFrame {
             }
         });
 
+        loginButton.addActionListener(e -> {
+            Index indexFrame = new Index();
+            indexFrame.setLocationRelativeTo(null);
+            indexFrame.setVisible(true);
+            dispose();
+        });
+
         gbc.gridy = 4;
         gbc.insets = new Insets(0, 0, 0, 0);
         form.add(loginButton, gbc);
@@ -176,26 +185,24 @@ public class Login extends JFrame {
         passwordField.setFont(FONT_INPUT);
         passwordField.setPreferredSize(new Dimension(0, 40));
 
-        togglePasswordButton = new JToggleButton("VER");
-        togglePasswordButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        togglePasswordButton = new JToggleButton();
+        togglePasswordButton.setIcon(FontIcon.of(MaterialDesignE.EYE, 18, COLOR_TEXT));
+        togglePasswordButton.setSelectedIcon(FontIcon.of(MaterialDesignE.EYE_OFF, 18, COLOR_TEXT));
         togglePasswordButton.setBackground(COLOR_TOGGLE_BG);
-        togglePasswordButton.setForeground(COLOR_TEXT);
         togglePasswordButton.setFocusPainted(false);
         togglePasswordButton.setBorderPainted(false);
         togglePasswordButton.setOpaque(true);
         togglePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        togglePasswordButton.setPreferredSize(new Dimension(70, 40));
+        togglePasswordButton.setPreferredSize(new Dimension(40, 40));
         togglePasswordButton.setToolTipText("Mostrar contraseña");
 
         togglePasswordButton.addActionListener(e -> {
             if (togglePasswordButton.isSelected()) {
                 passwordField.setEchoChar((char) 0);
-                togglePasswordButton.setText("OCULTAR");
                 togglePasswordButton.setBackground(COLOR_TOGGLE_ACTIVE);
                 togglePasswordButton.setToolTipText("Ocultar contraseña");
             } else {
                 passwordField.setEchoChar('•');
-                togglePasswordButton.setText("VER");
                 togglePasswordButton.setBackground(COLOR_TOGGLE_BG);
                 togglePasswordButton.setToolTipText("Mostrar contraseña");
             }
