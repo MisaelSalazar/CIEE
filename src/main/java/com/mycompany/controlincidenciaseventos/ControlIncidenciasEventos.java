@@ -3,7 +3,7 @@
  */
 
 package com.mycompany.controlincidenciaseventos;
-import views.Login;
+import views.shell.LoginFrame;
 /**
  *
  * @author Misae
@@ -12,7 +12,7 @@ public class ControlIncidenciasEventos {
 
     public static void main(String[] args) {
         //System.out.println("Hello World!");
-        Login objLogin = new Login();
+        LoginFrame objLogin = new LoginFrame();
         objLogin.setLocationRelativeTo(null);
         objLogin.setVisible(true);
     }
