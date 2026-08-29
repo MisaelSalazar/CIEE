@@ -1,37 +1,33 @@
-package views;
+package views.shell;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignE;
 import org.kordamp.ikonli.swing.FontIcon;
 import views.components.PlaceholderPasswordField;
 import views.components.PlaceholderTextField;
+import views.components.ui.UITheme;
 
-public class Login extends JFrame {
-
-    private static final Color COLOR_BACKGROUND = new Color(240, 242, 245);
-    private static final Color COLOR_PANEL_BG = Color.WHITE;
-    private static final Color COLOR_HEADER = new Color(26, 26, 46);
-    private static final Color COLOR_TEXT = new Color(51, 51, 51);
-    private static final Color COLOR_PLACEHOLDER = new Color(170, 170, 170);
-    private static final Color COLOR_BUTTON = new Color(26, 26, 46);
-    private static final Color COLOR_BUTTON_HOVER = new Color(40, 40, 70);
-    private static final Color COLOR_TOGGLE_BG = new Color(230, 230, 230);
-    private static final Color COLOR_TOGGLE_ACTIVE = new Color(200, 200, 220);
-    private static final Color COLOR_BORDER = new Color(200, 200, 200);
-
-    private static final Font FONT_LABEL = new Font("Segoe UI", Font.PLAIN, 15);
-    private static final Font FONT_INPUT = new Font("Segoe UI", Font.PLAIN, 15);
-    private static final Font FONT_BUTTON = new Font("Segoe UI", Font.BOLD, 16);
+public class LoginFrame extends JFrame {
 
     private PlaceholderTextField usernameField;
     private PlaceholderPasswordField passwordField;
     private JToggleButton togglePasswordButton;
-    private JButton loginButton;
+    private javax.swing.JButton loginButton;
 
-    public Login() {
+    public LoginFrame() {
         initFrame();
     }
 
@@ -40,10 +36,10 @@ public class Login extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(450, 500));
         setPreferredSize(new Dimension(650, 600));
-        setBackground(COLOR_BACKGROUND);
+        setBackground(UITheme.BACKGROUND);
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(COLOR_BACKGROUND);
+        mainPanel.setBackground(UITheme.BACKGROUND);
 
         JPanel loginCard = createLoginCard();
         mainPanel.add(loginCard, new GridBagConstraints());
@@ -64,13 +60,13 @@ public class Login extends JFrame {
 
     private JPanel createLoginCard() {
         JPanel card = new JPanel(new BorderLayout());
-        card.setBackground(COLOR_PANEL_BG);
+        card.setBackground(UITheme.PANEL_BG);
         card.setPreferredSize(new Dimension(400, 450));
         card.setMinimumSize(new Dimension(350, 400));
         card.setMaximumSize(new Dimension(500, 550));
-        card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
-                BorderFactory.createEmptyBorder(0, 0, 0, 0)
+        card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220), 1, true),
+                javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0)
         ));
 
         JPanel header = createHeader();
@@ -84,18 +80,18 @@ public class Login extends JFrame {
 
     private JPanel createHeader() {
         JPanel header = new JPanel(new GridBagLayout());
-        header.setBackground(COLOR_HEADER);
+        header.setBackground(UITheme.SIDEBAR_BG);
         header.setPreferredSize(new Dimension(400, 120));
-        header.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        header.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
         JLabel titleLabel = new JLabel("<html><center>Control de Incidencias y<br>Eventos Escolares</center></html>");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 18));
+        titleLabel.setForeground(java.awt.Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel subtitleLabel = new JLabel("CIEE");
-        subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 28));
-        subtitleLabel.setForeground(new Color(150, 150, 200));
+        subtitleLabel.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 28));
+        subtitleLabel.setForeground(UITheme.SIDEBAR_LOGO);
         subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -115,8 +111,8 @@ public class Login extends JFrame {
 
     private JPanel createForm() {
         JPanel form = new JPanel(new GridBagLayout());
-        form.setBackground(COLOR_PANEL_BG);
-        form.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        form.setBackground(UITheme.PANEL_BG);
+        form.setBorder(javax.swing.BorderFactory.createEmptyBorder(30, 40, 30, 40));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -129,7 +125,7 @@ public class Login extends JFrame {
         form.add(usernameLabel, gbc);
 
         usernameField = new PlaceholderTextField("Ingresa tu usuario");
-        usernameField.setFont(FONT_INPUT);
+        usernameField.setFont(UITheme.FONT_INPUT);
         usernameField.setPreferredSize(new Dimension(0, 40));
         gbc.gridy = 1;
         gbc.insets = new Insets(0, 0, 20, 0);
@@ -145,10 +141,10 @@ public class Login extends JFrame {
         gbc.insets = new Insets(0, 0, 30, 0);
         form.add(passwordPanel, gbc);
 
-        loginButton = new JButton("Ingresar");
-        loginButton.setFont(FONT_BUTTON);
-        loginButton.setBackground(COLOR_BUTTON);
-        loginButton.setForeground(Color.WHITE);
+        loginButton = new javax.swing.JButton("Ingresar");
+        loginButton.setFont(UITheme.FONT_BUTTON);
+        loginButton.setBackground(UITheme.SIDEBAR_BG);
+        loginButton.setForeground(java.awt.Color.WHITE);
         loginButton.setFocusPainted(false);
         loginButton.setBorderPainted(false);
         loginButton.setOpaque(true);
@@ -157,19 +153,19 @@ public class Login extends JFrame {
         loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
-                loginButton.setBackground(COLOR_BUTTON_HOVER);
+                loginButton.setBackground(UITheme.SIDEBAR_HOVER);
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
-                loginButton.setBackground(COLOR_BUTTON);
+                loginButton.setBackground(UITheme.SIDEBAR_BG);
             }
         });
 
         loginButton.addActionListener(e -> {
-            Index indexFrame = new Index();
-            indexFrame.setLocationRelativeTo(null);
-            indexFrame.setVisible(true);
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setLocationRelativeTo(null);
+            mainFrame.setVisible(true);
             dispose();
         });
 
@@ -182,13 +178,13 @@ public class Login extends JFrame {
 
     private JPanel createPasswordField() {
         passwordField = new PlaceholderPasswordField("Ingresa tu contraseña");
-        passwordField.setFont(FONT_INPUT);
+        passwordField.setFont(UITheme.FONT_INPUT);
         passwordField.setPreferredSize(new Dimension(0, 40));
 
         togglePasswordButton = new JToggleButton();
-        togglePasswordButton.setIcon(FontIcon.of(MaterialDesignE.EYE, 18, COLOR_TEXT));
-        togglePasswordButton.setSelectedIcon(FontIcon.of(MaterialDesignE.EYE_OFF, 18, COLOR_TEXT));
-        togglePasswordButton.setBackground(COLOR_TOGGLE_BG);
+        togglePasswordButton.setIcon(FontIcon.of(MaterialDesignE.EYE, 18, UITheme.TEXT));
+        togglePasswordButton.setSelectedIcon(FontIcon.of(MaterialDesignE.EYE_OFF, 18, UITheme.TEXT));
+        togglePasswordButton.setBackground(UITheme.TOGGLE_BG);
         togglePasswordButton.setFocusPainted(false);
         togglePasswordButton.setBorderPainted(false);
         togglePasswordButton.setOpaque(true);
@@ -199,17 +195,17 @@ public class Login extends JFrame {
         togglePasswordButton.addActionListener(e -> {
             if (togglePasswordButton.isSelected()) {
                 passwordField.setEchoChar((char) 0);
-                togglePasswordButton.setBackground(COLOR_TOGGLE_ACTIVE);
+                togglePasswordButton.setBackground(UITheme.TOGGLE_ACTIVE);
                 togglePasswordButton.setToolTipText("Ocultar contraseña");
             } else {
                 passwordField.setEchoChar('•');
-                togglePasswordButton.setBackground(COLOR_TOGGLE_BG);
+                togglePasswordButton.setBackground(UITheme.TOGGLE_BG);
                 togglePasswordButton.setToolTipText("Mostrar contraseña");
             }
         });
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(COLOR_PANEL_BG);
+        panel.setBackground(UITheme.PANEL_BG);
         panel.add(passwordField, BorderLayout.CENTER);
         panel.add(togglePasswordButton, BorderLayout.EAST);
 
@@ -218,8 +214,8 @@ public class Login extends JFrame {
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(FONT_LABEL);
-        label.setForeground(COLOR_TEXT);
+        label.setFont(UITheme.FONT_LABEL);
+        label.setForeground(UITheme.TEXT);
         return label;
     }
 }

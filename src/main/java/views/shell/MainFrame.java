@@ -1,33 +1,35 @@
-package views;
+package views.shell;
 
-import java.awt.*;
-import javax.swing.*;
-import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
-import org.kordamp.ikonli.materialdesign2.MaterialDesignC;
-import org.kordamp.ikonli.materialdesign2.MaterialDesignH;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.swing.FontIcon;
-import views.organization.Resume;
+import views.components.ui.UITheme;
+import views.core.ViewRegistry;
+import views.core.ViewSpec;
 
-public class Index extends JFrame {
-
-    private static final Color COLOR_SIDEBAR_BG = new Color(26, 26, 46);
-    private static final Color COLOR_SIDEBAR_HOVER = new Color(40, 40, 70);
-    private static final Color COLOR_SIDEBAR_ACTIVE = new Color(55, 55, 90);
-    private static final Color COLOR_BACKGROUND = new Color(240, 242, 245);
-    private static final Color COLOR_PANEL_BG = Color.WHITE;
-    private static final Color COLOR_TEXT = new Color(51, 51, 51);
-
-    private static final Font FONT_MENU = new Font("Segoe UI", Font.PLAIN, 15);
-    private static final Font FONT_TITLE = new Font("Segoe UI", Font.BOLD, 20);
-
-    private static final int SIDEBAR_WIDTH = 250;
+public class MainFrame extends JFrame {
 
     private JPanel contentPanel;
     private CardLayout cardLayout;
     private JLabel titleLabel;
     private JButton activeButton;
 
-    public Index() {
+    public MainFrame() {
         initFrame();
     }
 
@@ -36,17 +38,17 @@ public class Index extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 500));
         setPreferredSize(new Dimension(1200, 700));
-        setBackground(COLOR_BACKGROUND);
+        setBackground(UITheme.BACKGROUND);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(COLOR_BACKGROUND);
+        mainPanel.setBackground(UITheme.BACKGROUND);
 
         JPanel sidebar = createSidebar();
         JPanel topBar = createTopBar();
         JPanel contentArea = createContentArea();
 
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(COLOR_BACKGROUND);
+        rightPanel.setBackground(UITheme.BACKGROUND);
         rightPanel.add(topBar, BorderLayout.NORTH);
         rightPanel.add(contentArea, BorderLayout.CENTER);
 
@@ -62,47 +64,38 @@ public class Index extends JFrame {
     private JPanel createSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBackground(COLOR_SIDEBAR_BG);
-        sidebar.setPreferredSize(new Dimension(SIDEBAR_WIDTH, 0));
-        sidebar.setMinimumSize(new Dimension(SIDEBAR_WIDTH, 0));
+        sidebar.setBackground(UITheme.SIDEBAR_BG);
+        sidebar.setPreferredSize(new Dimension(UITheme.SIDEBAR_WIDTH, 0));
+        sidebar.setMinimumSize(new Dimension(UITheme.SIDEBAR_WIDTH, 0));
         sidebar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        JPanel logoPanel = new JPanel(new GridBagLayout());
-        logoPanel.setBackground(COLOR_SIDEBAR_BG);
-        logoPanel.setMaximumSize(new Dimension(SIDEBAR_WIDTH, 100));
-        logoPanel.setPreferredSize(new Dimension(SIDEBAR_WIDTH, 100));
+        JPanel logoPanel = new JPanel(new java.awt.GridBagLayout());
+        logoPanel.setBackground(UITheme.SIDEBAR_BG);
+        logoPanel.setMaximumSize(new Dimension(UITheme.SIDEBAR_WIDTH, 100));
+        logoPanel.setPreferredSize(new Dimension(UITheme.SIDEBAR_WIDTH, 100));
 
         JLabel logoLabel = new JLabel("CIEE");
         logoLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        logoLabel.setForeground(new Color(150, 150, 200));
+        logoLabel.setForeground(UITheme.SIDEBAR_LOGO);
         logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         logoPanel.add(logoLabel);
 
         sidebar.add(logoPanel);
 
         JSeparator separator = new JSeparator();
-        separator.setMaximumSize(new Dimension(SIDEBAR_WIDTH, 1));
-        separator.setForeground(new Color(60, 60, 90));
+        separator.setMaximumSize(new Dimension(UITheme.SIDEBAR_WIDTH, 1));
+        separator.setForeground(UITheme.SIDEBAR_SEPARATOR);
         sidebar.add(separator);
 
-        String[] menuItems = {"Inicio", "Incidencias", "Eventos", "Grados", "Grupos", "Personal", "Configuración"};
-        org.kordamp.ikonli.Ikon[] menuIcons = {
-            MaterialDesignH.HOME,
-            MaterialDesignA.ALERT,
-            MaterialDesignC.CALENDAR_MONTH,
-            MaterialDesignA.ACCOUNT_SCHOOL,
-            MaterialDesignA.ACCOUNT_GROUP,
-            MaterialDesignA.ACCOUNT,
-            MaterialDesignC.COG
-        };
-
-        for (int i = 0; i < menuItems.length; i++) {
-            JButton button = createMenuButton(menuItems[i], menuIcons[i]);
+        int index = 0;
+        for (ViewSpec spec : ViewRegistry.getAll()) {
+            JButton button = createMenuButton(spec.title(), spec.icon());
             sidebar.add(button);
 
-            if (i == 0) {
+            if (index == 0) {
                 setActiveButton(button);
             }
+            index++;
         }
 
         sidebar.add(Box.createVerticalGlue());
@@ -110,35 +103,35 @@ public class Index extends JFrame {
         return sidebar;
     }
 
-    private JButton createMenuButton(String text, org.kordamp.ikonli.Ikon icon) {
+    private JButton createMenuButton(String text, Ikon icon) {
         JButton button = new JButton(text);
-        button.setIcon(FontIcon.of(icon, 18, new Color(160, 160, 200)));
+        button.setIcon(FontIcon.of(icon, 18, UITheme.SIDEBAR_TEXT));
         button.setIconTextGap(14);
         button.setHorizontalTextPosition(SwingConstants.RIGHT);
-        button.setFont(FONT_MENU);
+        button.setFont(UITheme.FONT_MENU_ITEM);
         button.setForeground(Color.WHITE);
-        button.setBackground(COLOR_SIDEBAR_BG);
+        button.setBackground(UITheme.SIDEBAR_BG);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
         button.setOpaque(true);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setHorizontalAlignment(SwingConstants.LEFT);
-        button.setMaximumSize(new Dimension(SIDEBAR_WIDTH, 45));
-        button.setPreferredSize(new Dimension(SIDEBAR_WIDTH, 45));
+        button.setMaximumSize(new Dimension(UITheme.SIDEBAR_WIDTH, 45));
+        button.setPreferredSize(new Dimension(UITheme.SIDEBAR_WIDTH, 45));
         button.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
                 if (button != activeButton) {
-                    button.setBackground(COLOR_SIDEBAR_HOVER);
+                    button.setBackground(UITheme.SIDEBAR_HOVER);
                 }
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
                 if (button != activeButton) {
-                    button.setBackground(COLOR_SIDEBAR_BG);
+                    button.setBackground(UITheme.SIDEBAR_BG);
                 }
             }
         });
@@ -154,22 +147,22 @@ public class Index extends JFrame {
 
     private void setActiveButton(JButton button) {
         if (activeButton != null) {
-            activeButton.setBackground(COLOR_SIDEBAR_BG);
+            activeButton.setBackground(UITheme.SIDEBAR_BG);
         }
         activeButton = button;
-        activeButton.setBackground(COLOR_SIDEBAR_ACTIVE);
+        activeButton.setBackground(UITheme.SIDEBAR_ACTIVE);
     }
 
     private JPanel createTopBar() {
         JPanel topBar = new JPanel(new BorderLayout());
-        topBar.setBackground(COLOR_PANEL_BG);
+        topBar.setBackground(UITheme.PANEL_BG);
         topBar.setPreferredSize(new Dimension(0, 60));
         topBar.setMinimumSize(new Dimension(0, 60));
-        topBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(220, 220, 220)));
+        topBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UITheme.BORDER));
 
         titleLabel = new JLabel("Inicio");
-        titleLabel.setFont(FONT_TITLE);
-        titleLabel.setForeground(COLOR_TEXT);
+        titleLabel.setFont(UITheme.FONT_TITLE);
+        titleLabel.setForeground(UITheme.TEXT);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
         topBar.add(titleLabel, BorderLayout.WEST);
 
@@ -178,13 +171,15 @@ public class Index extends JFrame {
 
     private JPanel createContentArea() {
         JPanel contentArea = new JPanel(new BorderLayout());
-        contentArea.setBackground(COLOR_BACKGROUND);
+        contentArea.setBackground(UITheme.BACKGROUND);
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.setBackground(COLOR_BACKGROUND);
+        contentPanel.setBackground(UITheme.BACKGROUND);
 
-        contentPanel.add(new Resume(), "Inicio");
+        for (ViewSpec spec : ViewRegistry.getAll()) {
+            contentPanel.add(spec.factory().get(), spec.key());
+        }
 
         contentArea.add(contentPanel, BorderLayout.CENTER);
 
