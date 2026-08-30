@@ -2,6 +2,7 @@ com\mycompany\controlincidenciaseventos\ControlIncidenciasEventos.class
 views\core\ViewSpec.class
 views\incidents\IncidentsPanel.class
 views\shell\LoginFrame$1.class
+views\incidents\IncidentsPanel$GestionIncidenciasPanel.class
 views\shell\MainFrame.class
 views\components\PlaceholderPasswordField.class
 views\shell\LoginFrame$2.class
@@ -14,6 +15,7 @@ views\grades\GradesPanel.class
 views\staff\StaffPanel.class
 views\dashboard\DashboardPanel.class
 views\core\ViewRegistry.class
+views\incidents\IncidentsPanel$SeguimientoIncidenciasPanel.class
 views\components\ui\UITheme.class
 views\events\EventsPanel.class
 views\groups\GroupsPanel.class
